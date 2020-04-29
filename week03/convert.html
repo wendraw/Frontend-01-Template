@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>convert</title>
+</head>
+
+<body>
+    <script>
+        const hex = {
+            'a': 10,
+            'b': 11,
+            'c': 12,
+            'd': 13,
+            'e': 14,
+            'f': 15,
+        }
+
+        function convertStringToNumber(string, radix) {
+            if (string.length === 0) return NaN;
+            if (/0[bBoOxX]/.exec(string)) return otherDigitString(string, radix);
+            return decimalDigitString(string, radix);
+        }
+
+        function decimalDigitString(string, radix) {
+            if (arguments.length < 2) radix = 10;
+            let chars = string.split('');
+            let number = 0;
+            let index = 0;
+            while (index < chars.length &&
+                chars[index] !== '.' &&
+                chars[index] !== 'e' &&
+                chars[index] !== 'E') {
+
+                let num = chars[index].codePointAt(0) - '0'.codePointAt(0);
+                if (radix === 16 && hex[chars[index].toLowerCase()]) {
+                    num = hex[chars[index].toLowerCase()];
+                }
+                if (num >= radix) break;
+                number = number * radix;
+                number += num;
+                index++;
+            }
+
+            if (chars[index] === '.') {
+                index++;
+                let fraction = 1;
+                let len = 1
+                while (index < chars.length) {
+                    fraction = fraction / radix;
+                    let num = chars[index].codePointAt(0) - '0'.codePointAt(0);
+                    if (num > radix) break;
+                    number += num * fraction;
+                    index++;
+                    len *= 10;
+                }
+                return Math.floor(number * len) / len;
+            }
+
+            if (chars[index] === 'e' || chars[index] === 'E') {
+                index++;
+                let power = 0;
+                while (index < chars.length) {
+                    if (chars[index].codePointAt(0) < '0'.codePointAt(0)
+                        || chars[index].codePointAt(0) > '9'.codePointAt(0))
+                        break;
+                    power *= 10;
+                    power += chars[index].codePointAt(0) - '0'.codePointAt(0);
+                    index++;
+                }
+                return number * 10 ** power;
+            }
+
+            return number;
+        }
+
+        function otherDigitString(string, radix = 10) {
+            let chars = string.split('');
+            let index = 0;
+            let number = 0;
+
+            if (chars[0] === '0') {
+                if (chars[1] === 'b' || chars[1] === 'B') {
+                    if (radix === 10 || radix === 2) {
+                        radix = 2;
+                        index = 2;
+                    } else {
+                        return 0;
+                    }
+                } else if (chars[1] === 'o' || chars[1] === 'O') {
+                    if (radix === 10 || radix === 8) {
+                        radix = 8;
+                        index = 2;
+                    } else {
+                        return 0;
+                    }
+                } else if (chars[1] === 'x' || chars[1] === 'X') {
+                    if (radix === 10 || radix === 16) {
+                        radix = 16;
+                        index = 2;
+                    } else {
+                        return 0;
+                    }
+                } else if (chars[1].codePointAt(0) >= '0'.codePointAt(0) ||
+                    chars[1].codePointAt(0) <= '9'.codePointAt(0)) {
+                    index = 1;
+                } else {
+                    return 0;
+                }
+            }
+            while (index < chars.length) {
+                let num = chars[index].codePointAt(0) - '0'.codePointAt(0);
+                if (radix === 16 && hex[chars[index].toLowerCase()]) {
+                    num = hex[chars[index].toLowerCase()];
+                }
+                if (num >= radix) break;
+                number = number * radix;
+                number += num;
+                index++;
+            }
+            return number;
+        }
+
+        function convertNumberToString(number, radix) {
+            if (arguments.length < 2) radix = 10;
+            if (radix < 2 || radix > 36) throw RangeError('convertNumberToString() radix argument must be between 2 and 36');
+            let integer = Math.floor(number);
+            let big = number * 10e8;
+            let fraction = (big - (integer * 10e8)) / 10e8;
+            let string = '';
+            while (integer > 0) {
+                let temp = integer % radix;
+                if (radix > 10 && temp >= 10) temp = String.fromCharCode('a'.codePointAt(0) + temp - 10);
+                string = temp + string;
+                integer = Math.floor(integer / radix);
+            }
+            if (fraction > Number.EPSILON) string += '.';
+            let count = 0;
+            while (fraction > 0) {
+                if (count > 20) return string;
+                let temp = fraction * radix;
+                let d = Math.floor(temp);
+                string += radix > 10 && d >= 10 ?
+                    String.fromCharCode('a'.codePointAt(0) + d - 10) : d;
+                fraction = temp - d;
+                count++;
+            }
+            return string;
+        }
+    </script>
+</body>
+
+</html>
