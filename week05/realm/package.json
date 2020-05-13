@@ -1,0 +1,6 @@
+{
+  "main": "realm.js",
+  "dependencies": {
+    "@antv/g6": "latest"
+  }
+}
