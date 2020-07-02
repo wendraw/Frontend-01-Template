@@ -4,8 +4,13 @@
 
 # HomeWork
 ## 完成解析四则运算表达式的代码
-## 把正则风格的 tokenize 换成状态机
 见 GitHub[expression-parsing](https://github.com/wendraw/expression-parsing)
+
+## 把正则风格的 tokenize 换成状态机
+见 [字符串算法 -- 有限状态机](https://www.yuque.com/wendraw/fe/expression-parsing#hHPR7)
+
+## 实现了「带括号」和「逻辑运算」的表达式
+见 [字符串算法 -- 有限状态机](https://www.yuque.com/wendraw/fe/expression-parsing#U4TxC)
 
 ## 完成 Trie 字典树、KMP、WildCard 算法
 见 GitHub[string-algorithm](https://github.com/wendraw/string-algorithm)
