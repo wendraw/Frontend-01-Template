@@ -10,7 +10,7 @@
 见 [字符串算法 -- 有限状态机](https://www.yuque.com/wendraw/fe/expression-parsing#hHPR7)
 
 ## 实现了「带括号」和「逻辑运算」的表达式
-见 [字符串算法 -- 有限状态机](https://www.yuque.com/wendraw/fe/expression-parsing#U4TxC)
+见 [字符串算法](https://www.yuque.com/wendraw/fe/expression-parsing#U4TxC)
 
 ## 完成 Trie 字典树、KMP、WildCard 算法
 见 GitHub[string-algorithm](https://github.com/wendraw/string-algorithm)
