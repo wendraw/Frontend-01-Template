@@ -3,7 +3,7 @@
 见[组件化之（Gesture）](https://www.yuque.com/wendraw/fe/component-with-gesture)
 见[轮播组件（DOM）](https://www.yuque.com/wendraw/fe/carousel-component-dom)
 见[轮播组件（JSX）](https://www.yuque.com/wendraw/fe/carousel-component-jsx)
-见[轮播组件（DOM）](https://www.yuque.com/wendraw/fe/carousel-component-sfc)
+见[轮播组件（SFC）](https://www.yuque.com/wendraw/fe/carousel-component-sfc)
 
 # HomeWork
 ## 封装 Gesture 组件库
