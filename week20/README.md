@@ -6,4 +6,4 @@
 
 ## 完成发布系统的 OAuth 的代码
 
-见 GitHub [publish]](https://github.com/wendraw/Frontend-01-Template/blob/master/week20/publish)
+见 GitHub [publish](https://github.com/wendraw/Frontend-01-Template/blob/master/week20/publish)
