@@ -5,17 +5,43 @@ const unzipper = require("unzipper");
 const https = require("https");
 
 /* GET home page. */
-router.post("/?", function (request, response, next) {
+router.post("/", function (request, response, next) {
   // if (!request.query.filename) return;
   // let writeStream = fs.createWriteStream("../server/public/" + request.query.filename);
 
-  console.log(request.headers.token);
-  let writeStream = unzipper.Extract({ path: "../server/public" });
-  request.pipe(writeStream);
+  console.log(request.headers.xtoken);
+  const options = {
+    hostname: "api.github.com",
+    port: 443,
+    path: "/user",
+    headers: {
+      Authorization: `token ${request.headers.xtoken}`,
+      "User-Agent": "toy-publish-server",
+    },
+  };
 
-  request.on("end", () => {
-    response.send("okay");
+  const req = https.request(options, (res) => {
+    let body = "";
+    res.on("data", (d) => {
+      body += d.toString();
+    });
+    res.on("end", () => {
+      let user = JSON.parse(body);
+      console.log(user);
+      // TODO: 权限检查
+
+      let writeStream = unzipper.Extract({ path: "../server/public" });
+      request.pipe(writeStream);
+
+      request.on("end", () => {
+        response.send("okay");
+      });
+    });
   });
+  req.on("error", (err) => {
+    console.log(err);
+  });
+  req.end();
 });
 
 router.get("/auth", (request, response) => {
